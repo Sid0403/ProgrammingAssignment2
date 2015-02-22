@@ -10,8 +10,8 @@ makeCacheMatrix <- function(x = matrix()) {
                 m <<- NULL
         }
         get <- function() x
-        setinverse <- function(solve) m <<- solve
-        getinverse <- function() m
+        setinverse <- function(solve) m <<- solve              ##Calculating inverse here and caching the value in m
+        getinverse <- function() m                             ## by using <<- symbol
         list(set = set, get = get, setinverse = setinverse, getinverse = getinverse)
 }
 
@@ -20,12 +20,12 @@ makeCacheMatrix <- function(x = matrix()) {
 ## if inverse has already been calculated.
 cacheSolve <- function(x, ...) {
         m <- x$getinverse()
-        if(!is.null(m)){
-                message("getting cached data")
+        if(!is.null(m)){                                ## Using the if statement to check if the inverse has already been calculated
+                message("getting cached data")          ##if true, then directly returns from cache.
                 return(m)
         }
-        data <- x$get()
-        m <- solve(data, ...)
+        data <- x$get()                                 ##Or else further computation is done to 
+        m <- solve(data, ...)                           ##calculate inverse
         x$setinverse(m)
-        m                                        ## Return a matrix that is the inverse of 'x'
+        m                                                ## Return a matrix that is the inverse of 'x'
 }
